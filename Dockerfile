@@ -1,4 +1,8 @@
 FROM python:3.8-slim
+
+ENV DATABASE_URL sqlite:////var/lib/django-db/pmdaily.sqlite
+ENV CELERY_BACKEND redis://redis:6379/8
+
 COPY src/requirements.txt ./
 
 RUN apt-get update \
@@ -28,5 +32,9 @@ RUN pip install uwsgi
 RUN pip install --no-cache-dir -r requirements.txt
 
 ADD src /srv
+
+ENV NO_CACHE=On
+RUN python3 srv/manage.py collectstatic --noinput
+ENV NO_CACHE=Off
 
 WORKDIR /srv
