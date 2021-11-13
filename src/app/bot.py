@@ -5,10 +5,9 @@ from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, 
 from app.models import Command, TelegramUser
 from app.report import generate_report
 
-# включаем логи
 logger = logging.getLogger(__name__)
 
-reply_keyboard = ReplyKeyboardMarkup([['ℹ️ О сервисе', '🚀 Увеличить лимит запросов']], resize_keyboard=True)
+reply_keyboard = ReplyKeyboardMarkup([['ℹ️ О сервисе']], resize_keyboard=True)
 
 
 def process_event(event, user):
@@ -131,26 +130,13 @@ def help_feedback(update: Update, context: CallbackContext):
     )
 
 
-def help_no_limits(update: Update, context: CallbackContext):
-    user = user_get_by_update(update)
-    process_command(name='Sent command "No limits"', user=user)
-
-    context.bot.send_message(
-        chat_id=user.chat_id,
-        text='Если вы хотите увеличить или снять лимит запросов напишите нам напишите нам в чат поддержки или на почту aloha@wondersell.ru запрос с фразой «Снимите лимит запросов».',
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton('👨‍🚀 Написать в поддержку', url='https://canb2b.ru')],
-        ]),
-    )
-
-
 def help_command_not_found(update: Update, context: CallbackContext):
     user = user_get_by_update(update)
     process_command(name='Sent unknown command', user=user, text=update.message.text)
 
     context.bot.send_message(
         chat_id=user.chat_id,
-        text='⚠️🤷 Непонятная команда.\nСкорее всего, вы указали неправильную команду. Сейчас бот может анализировать только ссылки на каталоги Wildberries.',
+        text='⚠️🤷 Непонятная команда.\nСкорее всего, вы указали неправильную команду. Сейчас бот может анализировать только ссылки на демонстрационные товары.',
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton('💁‍️ Как правильно указать категорию?', callback_data='keyboard_help_catalog_link')],
         ]),
@@ -172,10 +158,9 @@ def wb_analyse_item(update: Update, context: CallbackContext):
     process_command(name='Sent command "WB analyse item"', user=user, text=update.message.text)
 
     if not user.can_send_more_requests():
-        dt = user.next_free_catalog_request_time()
         context.bot.send_message(
             chat_id=user.chat_id,
-            text=f'💫⚠️ Ваш лимит запросов закончился.\nЧтобы продолжить работу, напишите нам в чат поддержки на сайте https://canb2b.ru с запросом на снятие ограничения, либо дождитесь восстановления лимита. Это произойдет {dt.day}.{dt.month}.{dt.year} в {dt.hour}:{dt.minute} по Лондонскому времени (UTC/GMT+0)',
+            text='💫⚠️ Ваш лимит запросов закончился.\nЧтобы продолжить работу, напишите нам в чат поддержки на сайте https://canb2b.ru с запросом на снятие ограничения, либо дождитесь восстановления лимита.',
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton('👨‍🚀 Написать в поддержку', url='https://canb2b.ru')],
             ]),
@@ -216,15 +201,12 @@ def start_bot(bot):
     dp.add_handler(CommandHandler('help', help_start))
 
     dp.add_handler(MessageHandler(Filters.text & Filters.regex('ℹ️ О сервисе'), help_info))
-    dp.add_handler(MessageHandler(Filters.text & Filters.regex('🚀 Увеличить лимит запросов'), help_no_limits))
-    dp.add_handler(MessageHandler(Filters.text & Filters.regex('🚀 Снять ограничение'), help_no_limits))
 
     dp.add_handler(MessageHandler(Filters.text & Filters.regex('отчет'), report))
 
     dp.add_handler(CallbackQueryHandler(help_analyse_category, pattern='keyboard_analyse_category'))
     dp.add_handler(CallbackQueryHandler(help_catalog_link, pattern='keyboard_help_catalog_link'))
     dp.add_handler(CallbackQueryHandler(help_feedback, pattern='keyboard_help_info_feedback'))
-    dp.add_handler(CallbackQueryHandler(help_no_limits, pattern='keyboard_help_no_limits'))
 
     dp.add_handler(MessageHandler(Filters.text & Filters.regex(r'www\.wildberries\.ru/catalog/.*/detail\.aspx'), wb_analyse_item))
     dp.add_handler(MessageHandler(Filters.text & Filters.regex(r'www\.wildberries\.ru/catalog/.*/search\.aspx'), help_command_not_found))
