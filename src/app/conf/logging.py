@@ -1,3 +1,5 @@
+from app.conf.environ import env
+
 # Logging
 # https://docs.djangoproject.com/en/3.1/topics/logging/
 
@@ -16,7 +18,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': env('DJANGO_LOG_LEVEL', cast=str, defaul='INFO'),
             'propagate': False,
         },
         'celery': {

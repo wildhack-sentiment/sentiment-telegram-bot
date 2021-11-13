@@ -2,7 +2,6 @@ import logging
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, Update
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, Dispatcher, Filters, MessageHandler
 
-from app import tasks
 from app.models import Command, TelegramUser
 
 # включаем логи
@@ -13,9 +12,6 @@ reply_keyboard = ReplyKeyboardMarkup([['ℹ️ О сервисе', '🚀 Уве�
 
 def process_event(event, user):
     logger.info(event)
-
-    # Что-то отслеживание команд плохо работает, нужно будет потом разобраться
-    #tasks.track_amplitude.delay(chat_id=user.chat_id, event=event)
 
 
 def user_get_by_update(update: Update):
@@ -63,7 +59,7 @@ def process_command(name, user, text=''):
             message=text,
         )
     else:
-        logger.error(f'Command {name} not in slug list, it must me updated')
+        logger.error('Command %s not in slug list, it must me updated', name)
 
         return None
 
@@ -75,11 +71,7 @@ def process_command(name, user, text=''):
 def help_start(update: Update, context: CallbackContext):
     user = user_get_by_update(update)
 
-    logger.info(f'Trying to process command')
-
     process_command(name='Started bot', user=user)
-
-    logger.info(f'User chat_id is: {user.chat_id}')
 
     context.bot.send_message(
         chat_id=user.chat_id,
