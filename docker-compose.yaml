@@ -1,0 +1,59 @@
+version: '3.6'
+
+services:
+  web:
+    build: .
+    restart: always
+    command: uwsgi --http :8000 --module app.wsgi --workers 1 --threads 1
+    volumes:
+      - ./src:/srv:delegated
+    env_file:
+      - ./src/app/.env
+    ports:
+      - 80:8000
+    depends_on:
+      - postgres
+
+  worker:
+    build: .
+    restart: always
+    command: celery -A app worker --concurrency=7
+    volumes:
+      - ./src:/srv:delegated
+    environment:
+      - C_FORCE_ROOT=on
+    env_file:
+      - ./src/app/.env
+    links:
+      - redis
+    depends_on:
+      - redis
+      - postgres
+
+  flower:
+    build: .
+    restart: always
+    command: celery -A app flower --port=5555
+    volumes:
+      - ./src:/srv:delegated
+    links:
+      - redis
+    env_file:
+      - ./src/app/.env
+    ports:
+      - 5555:5555
+
+  redis:
+    image: redis:4-alpine
+
+  postgres:
+    image: postgres
+    env_file:
+      - ./src/app/.env
+    volumes:
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+    ports:
+      - 5432:5432
+
+volumes:
+  database-data: # named volumes can be managed easier using docker-compose

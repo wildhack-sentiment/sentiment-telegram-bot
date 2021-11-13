@@ -1,0 +1,16 @@
+build:
+  docker:
+    app: Dockerfile
+release:
+  command:
+    - python3 manage.py migrate | python3 manage.py reset_webhook
+  image: app
+run:
+  web:
+    command:
+      - uwsgi --http 0:$PORT --module app.wsgi --master --processes 4
+    image: app
+  worker:
+    command:
+      - celery -A app worker --concurrency=7
+    image: app

@@ -1,0 +1,11 @@
+name: Check pushed changes
+
+on:
+  push:
+    branches:
+      - '!master' # Prevent duplicating run with prod cd
+      - '!dev' # Prevent duplicating run with staging cd
+
+jobs:
+  check:
+    uses: canb2b/canb2b-telegram-bot/.github/workflows/build-and-test.yml@master

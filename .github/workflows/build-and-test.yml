@@ -1,0 +1,38 @@
+name: Build and test
+
+on:
+  workflow_call
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      SECRET_KEY: "++n)3ala40!+pud%h#pi(btojcyr7!h9olyi%!b!26j-sl19fb"
+      DATABASE_URL: "sqlite:///db.sqlite"
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.2.0
+      with:
+        redis-version: 4
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r src/requirements.txt
+
+    - name: Lint with flake8
+      run: |
+        cd src && flake8 --count --statistics
+
+    - name: Test with pytest
+      run: |
+        cd src && pytest
