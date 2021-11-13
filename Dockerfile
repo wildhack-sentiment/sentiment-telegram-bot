@@ -1,7 +1,7 @@
 FROM python:3.8-slim
 
 ENV DATABASE_URL sqlite:////var/lib/django-db/pmdaily.sqlite
-ENV CELERY_BACKEND redis://redis:6379/8
+ENV REDIS_URL redis://redis:6379/8
 
 COPY src/requirements.txt ./
 
