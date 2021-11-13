@@ -200,7 +200,7 @@ def report(update: Update, context: CallbackContext):
         chat_id=user.chat_id,
         document=report_file,
         caption='Файл с отчетом',
-        filename=f'report.pdf',
+        filename='report.pdf',
     )
 
 
