@@ -8,4 +8,4 @@ on:
 
 jobs:
   check:
-    uses: canb2b/canb2b-telegram-bot/.github/workflows/build-and-test.yml@master
+    uses: wildhack-sentiment/sentiment-telegram-bot/.github/workflows/build-and-test.yml@master
