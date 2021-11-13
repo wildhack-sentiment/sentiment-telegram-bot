@@ -1,7 +1,9 @@
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'app/templates/print',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -3,6 +3,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMa
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, Dispatcher, Filters, MessageHandler
 
 from app.models import Command, TelegramUser
+from app.report import generate_report
 
 # включаем логи
 logger = logging.getLogger(__name__)
@@ -190,6 +191,19 @@ def wb_analyse_item(update: Update, context: CallbackContext):
         process_event(user=user, event='Started WB item export')
 
 
+def report(update: Update, context: CallbackContext):
+    user = user_get_by_update(update)
+
+    report_file = generate_report(username=user.full_name)
+
+    context.bot.send_document(
+        chat_id=user.chat_id,
+        document=report_file,
+        caption='Файл с отчетом',
+        filename=f'report.pdf',
+    )
+
+
 def reset_webhook(bot, url, token):
     bot.delete_webhook()
     bot.set_webhook(url=url + token)
@@ -204,6 +218,8 @@ def start_bot(bot):
     dp.add_handler(MessageHandler(Filters.text & Filters.regex('ℹ️ О сервисе'), help_info))
     dp.add_handler(MessageHandler(Filters.text & Filters.regex('🚀 Увеличить лимит запросов'), help_no_limits))
     dp.add_handler(MessageHandler(Filters.text & Filters.regex('🚀 Снять ограничение'), help_no_limits))
+
+    dp.add_handler(MessageHandler(Filters.text & Filters.regex('отчет'), report))
 
     dp.add_handler(CallbackQueryHandler(help_analyse_category, pattern='keyboard_analyse_category'))
     dp.add_handler(CallbackQueryHandler(help_catalog_link, pattern='keyboard_help_catalog_link'))
