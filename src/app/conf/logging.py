@@ -18,7 +18,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': env('DJANGO_LOG_LEVEL', cast=str, defaul='INFO'),
+            'level': env('DJANGO_LOG_LEVEL', cast=str, default='INFO'),
             'propagate': False,
         },
         'celery': {
