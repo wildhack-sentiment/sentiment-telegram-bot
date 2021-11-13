@@ -2,17 +2,28 @@
 
 > Для хакатона Wildhack, ноябрь 2021
 
+## Локальная сборка
+
+1. Переменные окружения должны лежать в `src/app/.env`, можно взять за основу `src/app/.env.default`. Нужно их обновить перед первой сборкой
+2. Запустить локально ngrok командой `hngrok http 80`, выданный адрес записать в `src/app/.env`
+2. `docker compose build`
+3. `docker compose up`
+4. Зайти в контейнер `web` (например, командой `docker compose exec web`) и в нем выполнить следующие команды:
+    * `python3 manage.py migrate` 
+    * `python3 manage.py reset_webhook`
+    * Опционально можно создать себе суперпользователя для входа в Django Admin командой `python3 manage.py createsuperuser`
+
 
 ## Локальный запуск
 
-1. Переменные окружения должны лежать в `src/app/.env`, можно взять за основу `src/app/.env.default`
+1. Не забыть запустить и обновить в `src/app/.env` адрес ngrok
 2. `docker compose up`
+3. Если ngrok адрес менялся, зайти в контейнер `web` и запустить `python3 manage.py reset_webhook`
+
 
 ## CI/CD
 
 1. Деплой средствами Github Actions на Heroku, конфигурация в папке `.github`
-2. Выставить Телеграм на отправку вебхуков текущему инстансу нужно командой `python3 manage.py reset_webhook`. Можно это сделать в консоли Хероку `heroku run web bash`
-3. Выставить выбхуки телеграм на прием локально тоже можно, предварительно на хост-машине запустив NGROK `hngrok http 80` и указав получившуюся ссылку в переменной окружения `TELEGRAM_WEBHOOKS_DOMAIN` (см. `src/app/.env.default` для примера). Не забыть перезапустить докер при изменении `.env` файла.
 
 ## Структура репозитория
 
