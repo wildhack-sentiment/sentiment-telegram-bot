@@ -1,18 +1,17 @@
-import pandas as pd
-import numpy as np
-import string
 import json
-import requests as req
-
 import nltk
-nltk.download("stopwords")
+import numpy as np
+import pandas as pd
+import requests as req
+import string
 
+nltk.download('stopwords')
+
+import pymorphy2
+from collections import Counter as c
 from nltk.corpus import stopwords
 from pymystem3 import Mystem
-import pymorphy2
-
 from string import punctuation
-from collections import Counter as c
 
 
 class PrepareData:
@@ -31,7 +30,7 @@ class PrepareData:
 
     def prepare_data(self):
         data = pd.concat([self.bad_rev, self.good_rev])
-        
+
         try:
             data.drop(['Unnamed: 0'], axis='columns', inplace=True)
         except:
@@ -45,9 +44,9 @@ class PrepareData:
 
     def load_params(self, data):
         return {
-            'from_bot':'',
-            'data':json.dumps(list(data['review'].values)),
-            'lang':'ru'
+            'from_bot': '',
+            'data': json.dumps(list(data['review'].values)),
+            'lang': 'ru'
         }
 
     def call_api(self, params, data):
@@ -55,7 +54,6 @@ class PrepareData:
         res = res.json()
 
         return res['good_cls']
-
 
     def prepare_dataframe(self, good_reviews, data):
         rates = []
@@ -67,8 +65,8 @@ class PrepareData:
                 rates.append(None)
 
         good_cls = pd.DataFrame({
-            'review':good_reviews,
-            'rate':rates
+            'review': good_reviews,
+            'rate': rates
         })
 
         good_cls.dropna(inplace=True)
@@ -82,9 +80,9 @@ class PrepareData:
         neg = PrepareData.preprocess_text(neg)
 
         pos_c, neg_c = dict(c(pos)), dict(c(neg))
-        
+
         pos_adj, neg_adj = PrepareData.get_adj(pos_c), PrepareData.get_adj(neg_c)
-     
+
         max_v_neg = list(reversed(sorted(neg_adj.values())))[1:4:2]
         max_v_pos = list(reversed(sorted(pos_adj.values())))[1:4:2]
 
@@ -99,7 +97,7 @@ class PrepareData:
     @staticmethod
     def output(t, keywords, good_cls):
         end_data = {}
-        
+
         for w in keywords:
             rate = []
             vals = []
@@ -115,12 +113,11 @@ class PrepareData:
                         if w in row[0] and row[1] >= 4:
                             rate.append(row[1])
                             vals.append(row[0])
-                    
-                            
+
             end_data[w] = {
-                'examples':vals,
-                'rates':rate,
-                'mean_rate':np.array(rate).mean()
+                'examples': vals,
+                'rates': rate,
+                'mean_rate': np.array(rate).mean()
             }
 
         return end_data 
@@ -128,14 +125,13 @@ class PrepareData:
     @staticmethod
     def preprocess_text(text):
             mystem = Mystem() 
-            russian_stopwords = stopwords.words("russian")
+            russian_stopwords = stopwords.words('russian')
 
             tokens = mystem.lemmatize(text.lower())
             tokens = [token for token in tokens if token not in russian_stopwords\
-                    and token != " " \
+                    and token != ' ' \
                     and token.strip() not in punctuation]
-            
-            
+
             return tokens
 
     @staticmethod
@@ -147,5 +143,5 @@ class PrepareData:
             tag = str(morph.parse(name)[0].tag)[:4]
             if tag == 'ADJF':
                 adj[name] = d[name]
-                
+
         return adj

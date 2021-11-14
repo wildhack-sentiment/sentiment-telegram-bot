@@ -4,6 +4,7 @@ from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, 
 
 from app.models import Command, TelegramUser
 from app.report import generate_report
+from app.services import PrepareData
 
 logger = logging.getLogger(__name__)
 
