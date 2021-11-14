@@ -9,8 +9,9 @@ django-split-settings==1.1.0
 python-telegram-bot==12.8
 seller-stats==0.3.1
 
-scrapinghub==2.3.1
-sentry-sdk==1.4.3
+nltk
+pymystem3
+pymorphy2
 
 openpyxl==3.0.9
 PyYAML==6.0

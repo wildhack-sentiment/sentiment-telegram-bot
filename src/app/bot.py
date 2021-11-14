@@ -11,8 +11,6 @@ reply_keyboard = ReplyKeyboardMarkup([['ℹ️ О сервисе']], resize_keyb
 select_report_markup = InlineKeyboardMarkup([
     [InlineKeyboardButton('Отчет по товару 1', callback_data='keyboard_report_1')],
     [InlineKeyboardButton('Отчет по товару 2', callback_data='keyboard_report_2')],
-    [InlineKeyboardButton('Отчет по товару 3', callback_data='keyboard_report_3')],
-    [InlineKeyboardButton('Отчет по товару 4', callback_data='keyboard_report_4')],
 ])
 
 
@@ -152,32 +150,6 @@ def report_2(update: Update, context: CallbackContext):
     )
 
 
-def report_3(update: Update, context: CallbackContext):
-    user = user_get_by_update(update)
-
-    report_file = generate_report(username=user.full_name)
-
-    context.bot.send_document(
-        chat_id=user.chat_id,
-        document=report_file,
-        caption='Отчет по товару 3',
-        filename='report_3.pdf',
-    )
-
-
-def report_4(update: Update, context: CallbackContext):
-    user = user_get_by_update(update)
-
-    report_file = generate_report(username=user.full_name)
-
-    context.bot.send_document(
-        chat_id=user.chat_id,
-        document=report_file,
-        caption='Отчет по товару 4',
-        filename='report_4.pdf',
-    )
-
-
 def reset_webhook(bot, url, token):
     bot.delete_webhook()
     bot.set_webhook(url=url + token)
@@ -193,8 +165,6 @@ def start_bot(bot):
 
     dp.add_handler(CallbackQueryHandler(report_1, pattern='keyboard_report_1'))
     dp.add_handler(CallbackQueryHandler(report_2, pattern='keyboard_report_2'))
-    dp.add_handler(CallbackQueryHandler(report_3, pattern='keyboard_report_3'))
-    dp.add_handler(CallbackQueryHandler(report_4, pattern='keyboard_report_4'))
 
 
     dp.add_handler(MessageHandler(Filters.all, help_info))
