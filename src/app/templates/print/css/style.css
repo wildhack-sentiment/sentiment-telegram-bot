@@ -1,0 +1,414 @@
+@charset "UTF-8";
+@import url("http://fonts.googleapis.com/css?family=Monserrat:100,300,400,,700&subset=latin,cyrillic");
+@page {
+  size: A4;
+  /*margin: 0;*/
+}
+
+/* Local fonts */
+@font-face {
+  font-family: 'Monserrat';
+  font-style: normal;
+  font-weight: 100;
+  src: url(../fonts/Monserrat-Thin.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: italic;
+  font-weight: 100;
+  src: url(../fonts/Monserrat-ThinItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: normal;
+  font-weight: 300;
+  src: url(../fonts/Monserrat-Light.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: italic;
+  font-weight: 300;
+  src: url(../fonts/Monserrat-LightItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/Monserrat-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: italic;
+  font-weight: 400;
+  src: url(../fonts/Monserrat-RegularItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: url(../fonts/Monserrat-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: italic;
+  font-weight: 500;
+  src: url(../fonts/Monserrat-MediumItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: url(../fonts/Monserrat-Bold.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: italic;
+  font-weight: 700;
+  src: url(../fonts/Monserrat-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: normal;
+  font-weight: 900;
+  src: url(../fonts/Monserrat-Black.ttf);
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  font-style: italic;
+  font-weight: 900;
+  src: url(../fonts/Monserrat-BlackItalic.ttf);
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote:before, blockquote:after {
+  content: '';
+  content: none;
+}
+
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  outline: none;
+}
+
+body {
+  color: #000;
+  font-family: 'Monserrat', sans-serif;
+}
+
+a, button {
+  -webkit-transition: all .2s ease-in;
+  transition: all .2s ease-in;
+}
+
+b, strong {
+  font-weight: 700;
+}
+
+button,
+label,
+input[type="submit"] {
+  cursor: pointer;
+}
+
+input {
+  border: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Типографика */
+
+body {
+    font-size: 8pt;
+}
+
+h1 {
+    font-size: 23pt;
+    font-weight: 400;
+}
+
+p {
+    line-height: 1.45em;
+    font-weight: 300;
+}
+
+.subtitle {
+    font-size: 12pt;
+    font-weight: 300;
+}
+
+/* Цвета */
+
+a {
+  color: #0b5394;
+}
+
+.copyright {
+    color: #999999;
+}
+
+/* Лэйаут */
+
+body {
+    padding: 0;
+}
+
+.page {
+    page-break-after: always;
+    position: relative;
+}
+
+.container {
+    position: relative;
+    overflow: hidden;
+}
+
+.container:after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.column {
+    width: 50%;
+    float: left;
+}
+
+.page-background {
+    position: absolute;
+    display: block;
+    width: 65%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+
+h1 {
+    margin-bottom: 12.6pt;
+}
+
+.lead {
+    margin-bottom: 22.5pt;
+    overflow: hidden;
+}
+
+.lead:after {
+    content: '';
+    clear:both;
+}
+
+.lead .column-left {
+    display: block;
+    float: left;
+    width: 100pt;
+}
+
+.lead .column-right {
+    display: block;
+    float: left;
+    width: 250pt;
+}
+
+.lead h1 {
+    margin-bottom: 6.45pt;
+    font-size: 16.12pt;
+    margin-top: 10pt;
+}
+
+.lead p {
+    margin-bottom: 6.45pt;
+}
+
+.lead .hero {
+    width: 80pt;
+    border: 1px solid #B5B5B5;
+    border-radius: 10pt;
+    margin-right: 11.09pt;
+}
+
+.problem-lead {
+    clear: both;
+}
+
+.lead, .problem-lead {
+    padding-left: 46.5pt;
+}
+
+.lead .starred-rating {
+    font-size: 19.5pt;
+}
+
+.lead .starred-rating img {
+    width: 19.5pt;
+}
+
+.suggestions-block {
+    margin-bottom: 18pt;
+}
+
+.suggestions-block .suggestions {
+    padding: 7pt 15pt 7pt 0;
+    border-right: 1px solid #B5B5B5;
+    display: inline-block;
+}
+
+.suggestions-block .suggestions .suggestion {
+    display: inline-block;
+    padding: 5.16pt 12.25pt;
+    font-size: 9.03pt;
+    margin-right: 7.74pt;
+    border-radius: 4.83pt;
+    font-size: 9.03pt;
+    font-weight: 300;
+    color: #ffffff;
+}
+
+.suggestions-block .suggestions .negative {
+    background: #FF3D00;
+}
+
+.suggestions-block .suggestions .positive {
+    background: #50C234;
+}
+
+.suggestions-block .starred-rating {
+    vertical-align: middle;
+    padding-left: 17.4pt;
+
+    font-size: 9.03pt;
+    font-weight: 700;
+}
+
+.suggestions-block .starred-rating img {
+    width: 15.8pt;
+    position: relative;
+    top: -2pt;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.suggestions-block .starred-rating-comment {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 10pt;
+    font-size: 9.03pt;
+    font-weight: 100;
+    width: 150pt;
+}
+
+.example {
+    margin-bottom: 12.6pt;
+}
+
+.example .emoji {
+    width: 46.5pt;
+    padding-top: 12pt;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+.example .emoji img {
+    width: 25.8pt;
+}
+
+.example .text {
+    display: inline-block;
+    border: 1pt #dedede dashed;
+    line-height: 130%;
+    border-radius: 10pt;
+    padding: 17pt;
+    font-size: 9pt;
+    font-weight: 100;
+    width: 350pt;
+}
+
+.example .rating {
+    display: inline-block;
+    padding-top: 14pt;
+    width: 79pt;
+    text-align: center;
+    vertical-align: top;
+}
+
+.example .rating img {
+    width: 11.93pt;
+}
+
+.footer {
+    border-top: 1px solid #B5B5B5;
+
+    margin-top: 20pt;
+    padding: 20pt 0 0 0;
+}
+
+.footer .logo {
+    display: inline-block;
+}
+
+.footer .logo img {
+    width: 54.8pt;
+    vertical-align: middle;
+}
+
+.footer .text {
+    display: inline-block;
+    vertical-align: middle;
+    width: 200pt;
+
+    line-height: 120%;
+    font-size: 9pt;
+}
+
+.footer .text .madeby {
+    font-size: 7.09pt;
+    margin-top: 6.77pt;
+}

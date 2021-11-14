@@ -179,7 +179,11 @@ def wb_analyse_item(update: Update, context: CallbackContext):
 def report(update: Update, context: CallbackContext):
     user = user_get_by_update(update)
 
+    logger.info('Generating report')
+
     report_file = generate_report(username=user.full_name)
+
+    logger.info('Finished generating report')
 
     context.bot.send_document(
         chat_id=user.chat_id,
