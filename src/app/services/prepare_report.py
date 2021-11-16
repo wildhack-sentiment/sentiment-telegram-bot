@@ -1,6 +1,3 @@
-from app.services import PrepareData
-
-
 class PrepareReport:
     def __init__(self):
         pass
