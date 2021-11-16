@@ -4,7 +4,6 @@ from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, 
 
 from app.models import Command, TelegramUser
 from app.report import generate_report
-from app.services import PrepareData
 
 logger = logging.getLogger(__name__)
 
@@ -166,7 +165,6 @@ def start_bot(bot):
 
     dp.add_handler(CallbackQueryHandler(report_1, pattern='keyboard_report_1'))
     dp.add_handler(CallbackQueryHandler(report_2, pattern='keyboard_report_2'))
-
 
     dp.add_handler(MessageHandler(Filters.all, help_info))
 
